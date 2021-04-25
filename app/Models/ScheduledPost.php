@@ -24,4 +24,11 @@ class ScheduledPost extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    public function publish()
+    {
+        $this->delete();
+
+        return $this->blog->publishPost($this->post);
+    }
 }

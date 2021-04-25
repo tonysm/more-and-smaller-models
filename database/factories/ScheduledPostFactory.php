@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
+use App\Models\Post;
 use App\Models\ScheduledPost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +24,9 @@ class ScheduledPostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'blog_id' => Blog::factory(),
+            'post_id' => Post::factory(),
+            'publish_at' => $this->faker->dateTime(),
         ];
     }
 }

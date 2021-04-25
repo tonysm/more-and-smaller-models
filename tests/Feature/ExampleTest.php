@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Blog;
 use App\Models\Draft;
 use App\Models\Post;
+use App\Models\Publication;
+use App\Models\ScheduledPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
@@ -60,5 +62,18 @@ class ExampleTest extends TestCase
         $this->assertTrue($draft->blog->scheduledPosts->first()->is($scheduled));
         $this->assertTrue($scheduled->publish_at->eq($when));
         $this->assertTrue($draft->blog->scheduledPosts->first()->post->is($scheduled->post));
+    }
+
+    /** @test */
+    public function scheduled_post_is_published()
+    {
+        $scheduled = ScheduledPost::factory()->create();
+
+        $publication = $scheduled->publish();
+
+        $this->assertFalse($scheduled->exists);
+        $this->assertCount(1, $scheduled->blog->publications);
+        $this->assertTrue($scheduled->blog->publications->first()->is($publication));
+        $this->assertTrue($scheduled->blog->publications->first()->post->is($scheduled->post));
     }
 }
