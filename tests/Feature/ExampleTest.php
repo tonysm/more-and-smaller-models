@@ -51,6 +51,8 @@ class ExampleTest extends TestCase
         $scheduled = $draft->schedule(
             $when = Carbon::now()->addDays(5)->milliseconds(0)
         );
+
+        // To make sure the publish_at casting is there...
         $scheduled->refresh();
 
         $this->assertFalse($draft->exists);
