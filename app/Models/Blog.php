@@ -34,8 +34,6 @@ class Blog extends Model
 
     public function addDraft(Post $post): Draft
     {
-        $this->user->posts()->save($post);
-
         return $this->drafts()->create([
             'post_id' => $post->id,
         ]);

@@ -20,4 +20,11 @@ class Publication extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    public function unpublish()
+    {
+        $this->delete();
+
+        return $this->blog->addDraft($this->post);
+    }
 }

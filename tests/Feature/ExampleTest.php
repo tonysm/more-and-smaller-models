@@ -21,7 +21,7 @@ class ExampleTest extends TestCase
     {
         $user = User::factory()->has(Blog::factory())->create();
 
-        $draft = $user->blog->addDraft($post = new Post([
+        $draft = $user->blog->addDraft($post = $user->posts()->create([
             'title' => 'lorem',
             'content' => 'lorem ipsum',
         ]));
@@ -75,5 +75,18 @@ class ExampleTest extends TestCase
         $this->assertCount(1, $scheduled->blog->publications);
         $this->assertTrue($scheduled->blog->publications->first()->is($publication));
         $this->assertTrue($scheduled->blog->publications->first()->post->is($scheduled->post));
+    }
+
+    /** @test */
+    public function unpublish_post()
+    {
+        $publication = Publication::factory()->create();
+
+        $draft = $publication->unpublish();
+
+        $this->assertFalse($publication->exists);
+        $this->assertCount(1, $publication->blog->drafts);
+        $this->assertTrue($publication->blog->drafts->first()->is($draft));
+        $this->assertTrue($publication->blog->drafts->first()->post->is($draft->post));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
+use App\Models\Post;
 use App\Models\Publication;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,7 +24,8 @@ class PublicationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'blog_id' => Blog::factory(),
+            'post_id' => Post::factory(),
         ];
     }
 }
